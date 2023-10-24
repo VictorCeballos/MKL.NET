@@ -131,7 +131,6 @@ public enum VmlStatus
     OVERFLOW        = 3,
     UNDERFLOW       = 4,
     ACCURACYWARNING = 1000,
-
 }
 
 #pragma warning disable IDE0051 // Remove unused private members
@@ -610,4 +609,97 @@ public enum DftiErrorClass : long
     MKL_INTERNAL_ERROR         = 7,
     NUMBER_OF_THREADS_ERROR    = 8,
     LENGTH_1D_EXCEEDS_INT32    = 9,
+}
+
+/* status of the routines */
+public enum SparseStatus : int
+{
+    SPARSE_STATUS_SUCCESS = 0,            /* the operation was successful */
+    SPARSE_STATUS_NOT_INITIALIZED = 1,    /* empty handle or matrix arrays */
+    SPARSE_STATUS_ALLOC_FAILED = 2,       /* internal error: memory allocation failed */
+    SPARSE_STATUS_INVALID_VALUE = 3,      /* invalid input value */
+    SPARSE_STATUS_EXECUTION_FAILED = 4,   /* e.g. 0-diagonal element for triangular solver, etc. */
+    SPARSE_STATUS_INTERNAL_ERROR = 5,     /* internal error */
+    SPARSE_STATUS_NOT_SUPPORTED = 6       /* e.g. operation for double precision doesn't support other types */
+}
+
+/* sparse matrix operations */
+public enum SparseOperation : int
+{
+    SPARSE_OPERATION_NON_TRANSPOSE = 10,
+    SPARSE_OPERATION_TRANSPOSE = 11,
+    SPARSE_OPERATION_CONJUGATE_TRANSPOSE = 12
+}
+
+/* supported matrix types */
+public enum SparseMatrixType : int
+{
+    SPARSE_MATRIX_TYPE_GENERAL = 20,           /*    General case                    */
+    SPARSE_MATRIX_TYPE_SYMMETRIC = 21,         /*    Triangular part of              */
+    SPARSE_MATRIX_TYPE_HERMITIAN = 22,         /*    the matrix is to be processed   */
+    SPARSE_MATRIX_TYPE_TRIANGULAR = 23,
+    SPARSE_MATRIX_TYPE_DIAGONAL = 24,          /* diagonal matrix; only diagonal elements will be processed */
+    SPARSE_MATRIX_TYPE_BLOCK_TRIANGULAR = 25,
+    SPARSE_MATRIX_TYPE_BLOCK_DIAGONAL = 26     /* block-diagonal matrix; only diagonal blocks will be processed */
+}
+
+/* sparse matrix indexing: C-style or Fortran-style */
+public enum SparseIndexBase : int
+{
+    SPARSE_INDEX_BASE_ZERO = 0,          /* C-style */
+    SPARSE_INDEX_BASE_ONE = 1            /* Fortran-style */
+}
+
+/* applies to triangular matrices only ( SPARSE_MATRIX_TYPE_SYMMETRIC, SPARSE_MATRIX_TYPE_HERMITIAN, SPARSE_MATRIX_TYPE_TRIANGULAR ) */
+public enum SparseFillMode : int
+{
+    SPARSE_FILL_MODE_LOWER = 40,         /* lower triangular part of the matrix is stored */
+    SPARSE_FILL_MODE_UPPER = 41,         /* upper triangular part of the matrix is stored */
+    SPARSE_FILL_MODE_FULL = 42           /* upper triangular part of the matrix is stored */
+}
+
+/* applies to triangular matrices only ( SPARSE_MATRIX_TYPE_SYMMETRIC, SPARSE_MATRIX_TYPE_HERMITIAN, SPARSE_MATRIX_TYPE_TRIANGULAR ) */
+public enum SparseDiagType : int
+{
+    SPARSE_DIAG_NON_UNIT = 50,           /* triangular matrix with non-unit diagonal */
+    SPARSE_DIAG_UNIT = 51                /* triangular matrix with unit diagonal */
+}
+
+/* applicable for Level 3 operations with dense matrices; describes storage scheme for dense matrix (row major or column major) */
+public enum SparseLayout : int
+{
+    SPARSE_LAYOUT_ROW_MAJOR = 101,       /* C-style */
+    SPARSE_LAYOUT_COLUMN_MAJOR = 102     /* Fortran-style */
+}
+
+/* verbose mode; if verbose mode activated, handle should collect and report profiling / optimization info */
+public enum SparseVerboseMode : int
+{
+    SPARSE_VERBOSE_OFF = 70,
+    SPARSE_VERBOSE_BASIC = 71,           /* output contains high-level information about optimization algorithms, issues, etc. */
+    SPARSE_VERBOSE_EXTENDED = 72         /* provide detailed output information */
+}
+
+/* memory optimization hints from user: describe how much memory could be used on optimization stage */
+public enum SparseMemoryUsage : int
+{
+    SPARSE_MEMORY_NONE = 80,             /* no memory should be allocated for matrix values and structures; auxiliary structures could be created only for workload balancing, parallelization, etc. */
+    SPARSE_MEMORY_AGGRESSIVE = 81        /* matrix could be converted to any internal format */
+}
+
+public enum SparseRequest : int
+{
+    SPARSE_STAGE_FULL_MULT = 90,
+    SPARSE_STAGE_NNZ_COUNT = 91,
+    SPARSE_STAGE_FINALIZE_MULT = 92,
+    SPARSE_STAGE_FULL_MULT_NO_VAL = 93,
+    SPARSE_STAGE_FINALIZE_MULT_NO_VAL = 94
+}
+
+/* applies to SOR interface; define type of (S)SOR operation to perform */
+public enum SparseSORType : int
+{
+    SPARSE_SOR_FORWARD = 110,          /* (omega∗L + D)∗x^1 = (D - omega*D - omega*U)∗alpha*x^0 + omega*b */
+    SPARSE_SOR_BACKWARD = 111,         /* (omega∗U + D)∗x^1 = (D - omega*D - omega*L)∗alpha*x^0 + omega*b */
+    SPARSE_SOR_SYMMETRIC = 112         /* SSOR, for e.g. with omega == 1 && alpha == 1, equal to solving a system: (L + D)∗x^1 = b - U*x; (U + D)∗x = b - L*x^1 */
 }
